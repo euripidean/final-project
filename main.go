@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"os"
 
@@ -12,6 +13,13 @@ import (
 	"google.golang.org/api/option"
 	"google.golang.org/api/sheets/v4"
 )
+
+type Page struct {
+	TextFilePath string
+	TextFileName string
+	HTMLPagePath string
+	Content	  string
+}
 
 
 func main() {
@@ -90,5 +98,35 @@ if err != nil {
 if err := writer.Flush(); err != nil {
     log.Fatalf("Failed to flush writer: %v", err)
 }
+
+visualize("data.json", "data")
+
+}
+
+func visualize(TextFilePath string, TextFileName string) {
+
+    page := Page{
+        TextFilePath: TextFilePath,
+        HTMLPagePath: fmt.Sprintf("%s.html", TextFilePath),
+        Content: "",
+    }
+
+    fileContents, err := os.ReadFile(page.TextFilePath)
+    if err != nil {
+        log.Fatalf("Failed to read file: %v", TextFileName)
+    }
+
+    chartData := string(fileContents)
+
+    page.Content = chartData
+
+    t := template.Must(template.New("template.tmpl").ParseFiles("template.templ"))
+
+    newFile, err := os.Create(page.HTMLPagePath)
+    if err != nil {
+        log.Fatalf("Failed to create HTML file: %v", err)
+    }
+
+    t.Execute(newFile, page)
 
 }
