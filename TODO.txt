@@ -1,0 +1,16 @@
+DONE
+
+- Hook up Google Sheets API
+- Read data from a spreadsheet
+
+TODO
+- Marshall Data into a JSON and write file
+- Use JSON to create HTML visualization of data, using D3.JS
+- Write tests
+- Benchmark testing
+- Write Proposal and README.
+- Write blog article
+
+STRETCH GOALS
+- Walk through a folder and read all sheets recursively
+- Create summary details for visualization.
