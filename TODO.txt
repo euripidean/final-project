@@ -2,15 +2,18 @@ DONE
 
 - Hook up Google Sheets API
 - Read data from a spreadsheet
-
-TODO
 - Marshall Data into a JSON and write file
 - Use JSON to create HTML visualization of data, using D3.JS
+
+TODO
 - Write tests
 - Benchmark testing
 - Write Proposal and README.
 - Write blog article
 
-STRETCH GOALS
+MORE THOUGHTS
+- Dynamically create multiple graphs
+- Get name of sheet to become title of chart
+- Swap out hard-coded values for {{.GoVariables}}
 - Walk through a folder and read all sheets recursively
 - Create summary details for visualization.

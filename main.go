@@ -107,7 +107,7 @@ func visualize(TextFilePath string, TextFileName string) {
 
     page := Page{
         TextFilePath: TextFilePath,
-        HTMLPagePath: fmt.Sprintf("%s.html", TextFilePath),
+        HTMLPagePath: fmt.Sprintf("%s.html", TextFileName),
         Content: "",
     }
 
@@ -120,7 +120,7 @@ func visualize(TextFilePath string, TextFileName string) {
 
     page.Content = chartData
 
-    t := template.Must(template.New("template.tmpl").ParseFiles("template.templ"))
+    t := template.Must(template.New("template.tmpl").ParseFiles("template.tmpl"))
 
     newFile, err := os.Create(page.HTMLPagePath)
     if err != nil {
