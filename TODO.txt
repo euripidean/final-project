@@ -4,6 +4,7 @@ DONE
 - Read data from a spreadsheet
 - Marshall Data into a JSON and write file
 - Use JSON to create HTML visualization of data, using D3.JS
+- Refactor to separate files
 
 TODO
 - Write tests
@@ -17,3 +18,4 @@ MORE THOUGHTS
 - Swap out hard-coded values for {{.GoVariables}}
 - Walk through a folder and read all sheets recursively
 - Create summary details for visualization.
+- Log success in terminal

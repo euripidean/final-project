@@ -1,86 +1,66 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>D3 Visualization</title>
     <script src="https://d3js.org/d3.v5.min.js"></script>
-  </head>
-  <style>
-    .bar {
-      fill: steelblue;
-    }
-  </style>
-  <body>
-    <script>
-      d3.json("data.json").then(function (data) {
-        const svgWidth = 800;
-        const svgHeight = 400;
+</head>
+<body>
+        <script>
+        d3.json("data.json").then(function(data) {
+            
+            var svgWidth = 800;
+            var svgHeight = 400;
+            
+            
+            var margin = { top: 20, right: 20, bottom: 30, left: 40 };
+            var width = svgWidth - margin.left - margin.right;
+            var height = svgHeight - margin.top - margin.bottom;
+            
+            
+            var svg = d3.select("body")
+                        .append("svg")
+                        .attr("width", svgWidth)
+                        .attr("height", svgHeight)
+                        .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
+            
+            data.forEach(function(d) {
+                d["Number Sold"] = +d["Number Sold"];
+            });
 
-        const margin = { top: 20, right: 20, bottom: 30, left: 40 };
-        const width = svgWidth - margin.left - margin.right;
-        const height = svgHeight - margin.top - margin.bottom;
+            
+            var x = d3.scaleBand()
+                      .domain(data.map(function(d) { return d.Month; }))
+                      .range([0, width])
+                      .padding(0.1);
+            
+            var y = d3.scaleLinear()
+                      .domain([0, d3.max(data, function(d) { return d["Number Sold"]; })])
+                      .range([height, 0]);
+            
+            
+            var xAxis = d3.axisBottom(x);
+            var yAxis = d3.axisLeft(y);
 
-        const svg = d3
-          .select("body")
-          .append("svg")
-          .attr("width", svgWidth)
-          .attr("height", svgHeight)
-          .append("g")
-          .attr(
-            "transform",
-            "translate(" + margin.left + "," + margin.top + ")"
-          );
+            
+            svg.append("g")
+               .attr("transform", "translate(0," + height + ")")
+               .call(xAxis);
 
-        data.forEach(function (d) {
-          d["Number Sold"] = +d["Number Sold"];
+            svg.append("g")
+               .call(yAxis);
+
+            
+            svg.selectAll(".bar")
+               .data(data)
+               .enter().append("rect")
+               .attr("class", "bar")
+               .attr("x", function(d) { return x(d.Month); })
+               .attr("width", x.bandwidth())
+               .attr("y", function(d) { return y(d["Number Sold"]); })
+               .attr("height", function(d) { return height - y(d["Number Sold"]); });
         });
-
-        const x = d3
-          .scaleBand()
-          .domain(
-            data.map(function (d) {
-              return d.Month;
-            })
-          )
-          .range([0, width])
-          .padding(0.1);
-
-        const y = d3
-          .scaleLinear()
-          .domain([
-            0,
-            d3.max(data, function (d) {
-              return d["Number Sold"];
-            }),
-          ])
-          .range([height, 0]);
-
-        const xAxis = d3.axisBottom(x);
-        const yAxis = d3.axisLeft(y);
-
-        svg
-          .append("g")
-          .attr("transform", "translate(0," + height + ")")
-          .call(xAxis);
-
-        svg.append("g").call(yAxis);
-
-        svg
-          .selectAll(".bar")
-          .data(data)
-          .enter()
-          .append("rect")
-          .attr("class", "bar")
-          .attr("x", function (d) {
-            return x(d.Month);
-          })
-          .attr("width", x.bandwidth())
-          .attr("y", function (d) {
-            return y(d["Number Sold"]);
-          })
-          .attr("height", function (d) {
-            return height - y(d["Number Sold"]);
-          });
-      });
     </script>
-  </body>
+</body>
 </html>

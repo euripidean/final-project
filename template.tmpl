@@ -5,18 +5,18 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 <body>
-    <script>
+        <script>
         d3.json("data.json").then(function(data) {
-            // Define the SVG area
+            
             var svgWidth = 800;
             var svgHeight = 400;
             
-            // Define margins
+            
             var margin = { top: 20, right: 20, bottom: 30, left: 40 };
             var width = svgWidth - margin.left - margin.right;
             var height = svgHeight - margin.top - margin.bottom;
             
-            // Append SVG to the body
+            
             var svg = d3.select("body")
                         .append("svg")
                         .attr("width", svgWidth)
@@ -24,26 +24,26 @@
                         .append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
             
-            // Parse data
+            
             data.forEach(function(d) {
-                d.NumberSold = +d.NumberSold;
+                d["Number Sold"] = +d["Number Sold"];
             });
 
-            // Define x and y scales
+            
             var x = d3.scaleBand()
                       .domain(data.map(function(d) { return d.Month; }))
                       .range([0, width])
                       .padding(0.1);
             
             var y = d3.scaleLinear()
-                      .domain([0, d3.max(data, function(d) { return d.NumberSold; })])
+                      .domain([0, d3.max(data, function(d) { return d["Number Sold"]; })])
                       .range([height, 0]);
             
-            // Create x and y axes
+            
             var xAxis = d3.axisBottom(x);
             var yAxis = d3.axisLeft(y);
 
-            // Append x and y axes to the SVG
+            
             svg.append("g")
                .attr("transform", "translate(0," + height + ")")
                .call(xAxis);
@@ -51,15 +51,15 @@
             svg.append("g")
                .call(yAxis);
 
-            // Create bars
+            
             svg.selectAll(".bar")
                .data(data)
                .enter().append("rect")
                .attr("class", "bar")
                .attr("x", function(d) { return x(d.Month); })
                .attr("width", x.bandwidth())
-               .attr("y", function(d) { return y(d.NumberSold); })
-               .attr("height", function(d) { return height - y(d.NumberSold); });
+               .attr("y", function(d) { return y(d["Number Sold"]); })
+               .attr("height", function(d) { return height - y(d["Number Sold"]); });
         });
     </script>
 </body>
