@@ -29,5 +29,7 @@ func CreateJSON(data []map[string]interface{}) {
 	// Ensure all operations have been applied to the underlying writer
 	if err := writer.Flush(); err != nil {
 		log.Fatalf("Failed to flush writer: %v", err)
+	} else {
+		log.Println("JSON file created successfully")
 	}
 }

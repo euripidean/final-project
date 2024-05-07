@@ -1,6 +1,8 @@
+// Package main is the entry point of the program. It reads the data from the Google Sheet, creates a JSON file, and visualizes the data.
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
 
@@ -21,13 +23,14 @@ func main() {
 	apiKey := os.Getenv("API_KEY")
 
     // set spreadsheet ID
-    spreadsheetID := os.Getenv("SPREADSHEET_ID")
+    sid := flag.String("spreadsheetID", os.Getenv("SPREADSHEET_ID"), "Google Sheet ID")
+    flag.Parse()
 
     // set read range
     readRange := os.Getenv("READ_RANGE")
 
     // get data from the sheet
-    data, err := sheets.GetSheetData(apiKey, spreadsheetID, readRange)
+    headers, data, err := sheets.GetSheetData(apiKey, *sid, readRange)
     if err != nil {
         log.Fatalf("Failed to get sheet data: %v", err)
     }
@@ -36,5 +39,5 @@ func main() {
     json.CreateJSON(data)
 
     // visualize the data
-    visualization.Visualize("data.json", "data")
+    visualization.Visualize("data.json", "data", headers)
 }

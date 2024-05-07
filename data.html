@@ -5,18 +5,20 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
 <body>
-        <script>
-        d3.json("data.json").then(function(data) {
-            
-            var svgWidth = 800;
-            var svgHeight = 400;
-            
-            
-            var margin = { top: 20, right: 20, bottom: 30, left: 40 };
-            var width = svgWidth - margin.left - margin.right;
-            var height = svgHeight - margin.top - margin.bottom;
-            
-            
+    <script>
+    d3.json("data.json").then(function(data) {
+        
+        var svgWidth =  800 ;
+        var svgHeight =  400 ;
+        
+        
+        var margin = { top:  20 , right:  20 , bottom:  30 , left:  40  };
+        var width = svgWidth - margin.left - margin.right;
+        var height = svgHeight - margin.top - margin.bottom;
+        
+        var keys = ["Month","Number Sold","Value"].slice(1);
+
+        keys.forEach(function(key, i) {
             var svg = d3.select("body")
                         .append("svg")
                         .attr("width", svgWidth)
@@ -24,43 +26,38 @@
                         .append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
             
-            
             data.forEach(function(d) {
-                d["Number Sold"] = +d["Number Sold"];
+                d[key] = +d[key];
             });
 
-            
             var x = d3.scaleBand()
-                      .domain(data.map(function(d) { return d.Month; }))
+                      .domain(data.map(function(d) { return d["Month"]; }))
                       .range([0, width])
                       .padding(0.1);
             
             var y = d3.scaleLinear()
-                      .domain([0, d3.max(data, function(d) { return d["Number Sold"]; })])
+                      .domain([0, d3.max(data, function(d) { return d[key]; })])
                       .range([height, 0]);
-            
             
             var xAxis = d3.axisBottom(x);
             var yAxis = d3.axisLeft(y);
-
             
             svg.append("g")
                .attr("transform", "translate(0," + height + ")")
                .call(xAxis);
-
             svg.append("g")
                .call(yAxis);
-
             
             svg.selectAll(".bar")
                .data(data)
                .enter().append("rect")
                .attr("class", "bar")
-               .attr("x", function(d) { return x(d.Month); })
+               .attr("x", function(d) { return x(d["Month"]); })
                .attr("width", x.bandwidth())
-               .attr("y", function(d) { return y(d["Number Sold"]); })
-               .attr("height", function(d) { return height - y(d["Number Sold"]); });
+               .attr("y", function(d) { return y(d[key]); })
+               .attr("height", function(d) { return height - y(d[key]); });
         });
+    });
     </script>
 </body>
 </html>

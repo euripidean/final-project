@@ -1,3 +1,4 @@
+// Package sheets provides functions to interact with Google Sheets API
 package sheets
 
 import (
@@ -8,7 +9,8 @@ import (
 	"google.golang.org/api/sheets/v4"
 )
 
-func GetSheetData(apiKey string, spreadsheetID string, readRange string) ([]map[string]interface{}, error) {
+// GetSheetData retrieves data from a Google Sheet
+func GetSheetData(apiKey string, spreadsheetID string, readRange string) ([]string, []map[string]interface{}, error) {
 
 	// Connection
 	ctx := context.Background()
@@ -16,20 +18,21 @@ func GetSheetData(apiKey string, spreadsheetID string, readRange string) ([]map[
 	// Connect to sheets client
 	service, err := sheets.NewService(ctx, option.WithAPIKey(apiKey))
 	if err != nil {
-		return nil, fmt.Errorf("unable to retrieve sheets client: %v", err)
+		return nil, nil, fmt.Errorf("unable to retrieve sheets client: %v", err)
 	}
 
 	// Get data from sheet
 	resp, err := service.Spreadsheets.Values.Get(spreadsheetID, readRange).Do()
 	if err != nil {
-		return nil, fmt.Errorf("unable to retrieve data from sheet: %v", err)
+		return nil, nil, fmt.Errorf("unable to retrieve data from sheet: %v", err)
 	}
 
+	var headers []string
 	var data []map[string]interface{}
 
 	if len(resp.Values) > 0 {
     // Get the headers from the first row
-    var headers []string
+    
     for _, header := range resp.Values[0] {
         headers = append(headers, header.(string))
     }
@@ -46,5 +49,5 @@ func GetSheetData(apiKey string, spreadsheetID string, readRange string) ([]map[
     }
 }
 
-return data, nil
+return headers, data, nil
 }

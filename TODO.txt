@@ -5,6 +5,10 @@ DONE
 - Marshall Data into a JSON and write file
 - Use JSON to create HTML visualization of data, using D3.JS
 - Refactor to separate files
+- Swap out hard-coded values for {{.GoVariables}}
+- Dynamically create multiple graphs
+- Log success in terminal
+
 
 TODO
 - Write tests
@@ -13,9 +17,8 @@ TODO
 - Write blog article
 
 MORE THOUGHTS
-- Dynamically create multiple graphs
-- Get name of sheet to become title of chart
-- Swap out hard-coded values for {{.GoVariables}}
-- Walk through a folder and read all sheets recursively
-- Create summary details for visualization.
-- Log success in terminal
+
+- Get name of sheet to become title of chart?
+- Set colour of charts.
+- Colour terminal messages.
+
