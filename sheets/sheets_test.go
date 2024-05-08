@@ -9,35 +9,35 @@ import (
 )
 
 type MockSheetsService struct {
-    response *sheets.ValueRange
+	response *sheets.ValueRange
 }
 
 func (m *MockSheetsService) SpreadsheetsValuesGet(spreadsheetId string, range_ string) (*sheets.ValueRange, error) {
-    return m.response, nil
+	return m.response, nil
 }
 
 // Test helper function to compare two slices of maps as Go does not allow direct comparison of slices of maps
 func compareSliceOfMaps(a, b []map[string]interface{}) bool {
-    if len(a) != len(b) {
-        return false
-    }
-    for _, aa := range a {
-        found := false
-        for _, bb := range b {
-            if reflect.DeepEqual(aa, bb) {
-                found = true
-                break
-            }
-        }
-        if !found {
-            return false
-        }
-    }
-    return true
+	if len(a) != len(b) {
+		return false
+	}
+	for _, aa := range a {
+		found := false
+		for _, bb := range b {
+			if reflect.DeepEqual(aa, bb) {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return false
+		}
+	}
+	return true
 }
 
 func TestSheetsService_GetSheetData(t *testing.T) {
-	
+
 	type args struct {
 		spreadsheetID string
 		readRange     string
@@ -65,8 +65,8 @@ func TestSheetsService_GetSheetData(t *testing.T) {
 				spreadsheetID: "spreadsheetID",
 				readRange:     "readRange",
 			},
-			want: []string{"Month", "Number Sold"},
-			want1: []map[string]interface{}{{"Month": "January", "Number Sold": 25}, {"Month": "February", "Number Sold": 30}},
+			want:    []string{"Month", "Number Sold"},
+			want1:   []map[string]interface{}{{"Month": "January", "Number Sold": 25}, {"Month": "February", "Number Sold": 30}},
 			wantErr: false,
 		},
 		// Ran out of time to write more tests as this was a pretty complicated set up!

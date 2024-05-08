@@ -12,6 +12,7 @@ import (
 type SheetsServiceInterface interface {
 	SpreadsheetsValuesGet(spreadsheetId string, range_ string) (*sheets.ValueRange, error)
 }
+
 // SheetsService provides functions to interact with Google Sheets API
 type SheetsService struct {
 	service SheetsServiceInterface
@@ -23,7 +24,7 @@ type SheetsServiceWrapper struct {
 }
 
 func (s *SheetsServiceWrapper) SpreadsheetsValuesGet(spreadsheetId string, range_ string) (*sheets.ValueRange, error) {
-    return s.service.Spreadsheets.Values.Get(spreadsheetId, range_).Do()
+	return s.service.Spreadsheets.Values.Get(spreadsheetId, range_).Do()
 }
 
 // NewSheetsService creates a new SheetsService

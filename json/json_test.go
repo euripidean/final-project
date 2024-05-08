@@ -12,41 +12,41 @@ import (
 func TestCreateJSON(t *testing.T) {
 	var fileName = "data"
 	type args struct {
-		data []map[string]interface{}
+		data     []map[string]interface{}
 		fileName *string
 	}
-		tests := []struct {
-			name string
-			args args
-			wantErr bool
-		}{
-			{
-				name: "JSON is created when data is supplied",
-				args: args{
-					data: []map[string]interface{}{
-						{"key1": "value1", "key2": "value2"},
-						{"key1": "value3", "key2": "value4"},
-					},
-					fileName: &fileName,
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "JSON is created when data is supplied",
+			args: args{
+				data: []map[string]interface{}{
+					{"key1": "value1", "key2": "value2"},
+					{"key1": "value3", "key2": "value4"},
 				},
-				wantErr: false,
+				fileName: &fileName,
 			},
-			{
-				name: "JSON is not created when data is not supplied",
-				args: args{
-					data: []map[string]interface{}{},
-					fileName: &fileName,
-				},
-				wantErr: true,
+			wantErr: false,
+		},
+		{
+			name: "JSON is not created when data is not supplied",
+			args: args{
+				data:     []map[string]interface{}{},
+				fileName: &fileName,
 			},
-		}
-		 for _, tt := range tests {
-        t.Run(tt.name, func(t *testing.T) {
-            // Call CreateJSON
-            CreateJSON(tt.args.data, tt.args.fileName)
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// Call CreateJSON
+			CreateJSON(tt.args.data, tt.args.fileName)
 
-            // Check if file was created
-            _, err := os.Stat("data.json")
+			// Check if file was created
+			_, err := os.Stat("data.json")
 			if (err != nil) != tt.wantErr {
 				t.Errorf("CreateJSON() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -75,8 +75,8 @@ func TestCreateJSON(t *testing.T) {
 				// Clean up
 				os.Remove("data.json")
 			}
-        })
-    }
+		})
+	}
 }
 
 // BenchmarkCreateJSON benchmarks the CreateJSON function
@@ -87,7 +87,6 @@ func BenchmarkCreateJSON(b *testing.B) {
 		{"key1": "value3", "key2": "value4"},
 	}
 	fileName := "data"
-
 
 	for i := 0; i < b.N; i++ {
 		CreateJSON(data, &fileName)
