@@ -4,12 +4,19 @@ package json
 import (
 	"bufio"
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 )
 
 // CreateJSON creates a JSON file from the data read from the spreadsheet
 func CreateJSON(data []map[string]interface{}) {
+	//if data is empty, throw an error and return
+	if len(data) == 0 {
+		error := fmt.Errorf("data cannot be empty")
+		log.Println(error)
+		return
+	}
 	// Convert the data to JSON
 	jsonData, err := json.Marshal(data)
 	if err != nil {
@@ -30,7 +37,8 @@ func CreateJSON(data []map[string]interface{}) {
 
 	// Ensure all operations have been applied to the underlying writer
 	if err := writer.Flush(); err != nil {
-		log.Fatalf("Failed to flush writer: %v", err)
+		error := fmt.Errorf("failed to flush writer: %v", err)
+		log.Println(error)
 	} else {
 		log.Println("JSON file created successfully")
 	}
