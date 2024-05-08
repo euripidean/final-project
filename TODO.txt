@@ -8,17 +8,19 @@ DONE
 - Swap out hard-coded values for {{.GoVariables}}
 - Dynamically create multiple graphs
 - Log success in terminal
+- Write Proposal and README.
 
 
 TODO
 - Write tests
 - Benchmark testing
-- Write Proposal and README.
+
 - Write blog article
 
 MORE THOUGHTS
 
 - Get name of sheet to become title of chart?
+- Titles on axis
 - Set colour of charts.
 - Colour terminal messages.
 

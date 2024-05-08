@@ -9,10 +9,21 @@ import (
 	"google.golang.org/api/sheets/v4"
 )
 
+type SheetsServiceInterface interface {
+	SpreadsheetsValuesGet(spreadsheetId string, range_ string) (*sheets.ValueRange, error)
+}
 // SheetsService provides functions to interact with Google Sheets API
 type SheetsService struct {
-	service *sheets.Service
+	service SheetsServiceInterface
 	apiKey  string
+}
+
+type SheetsServiceWrapper struct {
+	service *sheets.Service
+}
+
+func (s *SheetsServiceWrapper) SpreadsheetsValuesGet(spreadsheetId string, range_ string) (*sheets.ValueRange, error) {
+    return s.service.Spreadsheets.Values.Get(spreadsheetId, range_).Do()
 }
 
 // NewSheetsService creates a new SheetsService
@@ -22,13 +33,16 @@ func NewSheetsService(apiKey string) (*SheetsService, error) {
 	if err != nil {
 		return nil, fmt.Errorf("unable to retrieve sheets client: %v", err)
 	}
-	return &SheetsService{service: service, apiKey: apiKey}, nil
+	return &SheetsService{service: &SheetsServiceWrapper{service: service}, apiKey: apiKey}, nil
 }
 
 // GetSheetData retrieves data from a Google Sheet
 func (s *SheetsService) GetSheetData(spreadsheetID string, readRange string) ([]string, []map[string]interface{}, error) {
+	if s.service == nil {
+		return nil, nil, fmt.Errorf("sheets service is not initialized")
+	}
 	// Get data from sheet
-	resp, err := s.service.Spreadsheets.Values.Get(spreadsheetID, readRange).Do()
+	resp, err := s.service.SpreadsheetsValuesGet(spreadsheetID, readRange)
 	if err != nil {
 		return nil, nil, fmt.Errorf("unable to retrieve data from sheet: %v", err)
 	}
