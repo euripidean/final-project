@@ -1,3 +1,4 @@
+// Package json provides functions to create a JSON file from the data read from the spreadsheet (slice of maps)
 package json
 
 import (
@@ -7,6 +8,7 @@ import (
 	"os"
 )
 
+// CreateJSON creates a JSON file from the data read from the spreadsheet
 func CreateJSON(data []map[string]interface{}) {
 	// Convert the data to JSON
 	jsonData, err := json.Marshal(data)

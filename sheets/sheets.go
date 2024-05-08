@@ -48,6 +48,5 @@ func GetSheetData(apiKey string, spreadsheetID string, readRange string) ([]stri
         data = append(data, rowData)
     }
 }
-
 return headers, data, nil
 }

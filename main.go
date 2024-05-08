@@ -6,13 +6,14 @@ import (
 	"log"
 	"os"
 
-	"final-project/json"
-	"final-project/sheets"
-	"final-project/visualization"
+	"github.com/euripidean/final-project/json"
+	"github.com/euripidean/final-project/sheets"
+	"github.com/euripidean/final-project/visualization"
 
 	"github.com/joho/godotenv"
 )
 
+// main executes the program to read data from a Google Sheet, create a JSON file, and visualize the data
 func main() {
     // load the .env file
    if err := godotenv.Load(); err != nil {
@@ -22,8 +23,9 @@ func main() {
     // set API key
 	apiKey := os.Getenv("API_KEY")
 
-    // set spreadsheet ID
+    // set spreadsheet ID and the output file name
     sid := flag.String("spreadsheetID", os.Getenv("SPREADSHEET_ID"), "Google Sheet ID")
+    file := flag.String("file", "data", "JSON and HTML file to create")
     flag.Parse()
 
     // set read range
@@ -39,5 +41,5 @@ func main() {
     json.CreateJSON(data)
 
     // visualize the data
-    visualization.Visualize("data.json", "data", headers)
+    visualization.Visualize(*file, headers, "./template.tmpl")
 }

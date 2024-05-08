@@ -1,15 +1,15 @@
+// Package visualization provides functions to visualize data in HTML format
 package visualization
 
 import (
 	"fmt"
 	"html/template"
-	"log"
 	"os"
 )
 
 // Page represents a page to be visualized
 type Page struct {
-    TextFilePath string
+    JSONFilePath string
     HTMLPagePath string
     Content      string
 }
@@ -30,31 +30,41 @@ type TemplateData struct {
 }
 
 // Visualize creates an HTML page to visualize the data
-func Visualize(TextFilePath string, TextFileName string, Headers []string) {
+func Visualize(FileName string, Headers []string, TemplatePath string) error {
+
+    if len(Headers) <= 1 {
+        return fmt.Errorf("there need to be at least two headers to visualize the data")
+    }
     
     page := Page{
-        TextFilePath: TextFilePath,
-        HTMLPagePath: fmt.Sprintf("%s.html", TextFileName),
+        JSONFilePath: fmt.Sprintf("%s.json",FileName),
+        HTMLPagePath: fmt.Sprintf("%s.html", FileName),
         Content: "",
     }
 
-    fileContents, err := os.ReadFile(page.TextFilePath)
+    fileContents, err := os.ReadFile(page.JSONFilePath)
     if err != nil {
-        log.Fatalf("Failed to read file: %v", TextFileName)
+        error := fmt.Errorf("failed to read JSON file: %v", err)
+        fmt.Println(error)
     }
 
     page.Content = string(fileContents)
 
-    t := template.Must(template.ParseFiles("template.tmpl"))
+    t, err := template.ParseFiles(TemplatePath)
+    if err != nil {
+        error := fmt.Errorf("failed to parse template: %v", err)
+        fmt.Println(error)
+    }
 
     newFile, err := os.Create(page.HTMLPagePath)
     if err != nil {
-        log.Fatalf("Failed to create HTML file: %v", err)
+        error := fmt.Errorf("failed to create HTML file: %v", err)
+        fmt.Println(error)
     }
 
     data := TemplateData{
         Title:       "D3 Visualization",
-        DataFile:   TextFilePath,
+        DataFile:   page.JSONFilePath,
         Headers:    Headers,
         SvgWidth:    800,
         SvgHeight:   400,
@@ -65,6 +75,13 @@ func Visualize(TextFilePath string, TextFileName string, Headers []string) {
         DomainKey:   Headers[0],
     }
 
-    t.Execute(newFile, data)
-    log.Println("HTML file created successfully")
+    err = t.Execute(newFile, data)
+    if err != nil {
+        error := fmt.Errorf("failed to execute template: %v", err)
+        fmt.Println(error)
+    } else {
+        fmt.Println("Template executed successfully")
+    }
+    
+    return nil
 }
