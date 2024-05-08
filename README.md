@@ -2,7 +2,7 @@
 
 <!-- Go Report Badge -->
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/euripidean/final-project)](https://goreportcard.com/report/github.com/euripidean/final-project)
+
 
 <!-- Go Report Badge -->
 
@@ -14,7 +14,8 @@ This package allows you to visualize data from a Google Sheets spreadsheet in a 
 
 1. Clone the repository
 2. Run `go build` in the root directory
-3. Run the executable with the following flags:
+
+3. Run the executable using `go run main.go` with the following flags:
    - `-sid` (optional): The ID of the Google Sheets spreadsheet you want to visualize. If you don't pass it as a flag, the default value will be the value of the `SPREADSHEET_ID` environment variable.
    - `-f` (optional): The name of the file where the JSON data will be saved (default: `data.json`). This will also be the name of the HTML file that will be served.
 4. Open a web browser and navigate to `http://localhost:3030/<file>.html` to see the visualizations
@@ -36,3 +37,6 @@ This package allows you to visualize data from a Google Sheets spreadsheet in a 
    - `-sid` (required): The ID of the Google Sheets spreadsheet you want to visualize
    - `-file` (optional): The name of the file where the JSON data will be saved (default: `data.json`). This will also be the name of the HTML file that will be served.
 5. Open a web browser and navigate to `http://localhost:5500/<file>.html` to see the visualizations
+
+### Screenshot of output HTML
+![Screenshot 2024-05-07 at 10 39 23 PM](https://github.com/euripidean/final-project/assets/33559193/ba9b8c76-aba8-4a4d-8d71-aa535efbecdd)
