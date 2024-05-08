@@ -2,7 +2,7 @@
 
 <!-- Go Report Badge -->
 
-
+[![Go Report Card](https://goreportcard.com/badge/github.com/euripidean/final-project)](https://goreportcard.com/report/github.com/euripidean/final-project)
 
 <!-- Go Report Badge -->
 
