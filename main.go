@@ -3,6 +3,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 
@@ -31,10 +32,18 @@ func main() {
 	// set read range
 	readRange := os.Getenv("READ_RANGE")
 
-	// get data from the sheet
-	headers, data, err := sheets.GetSheetData(apiKey, *sid, readRange)
+	// create a new SheetsService
+	service, err := sheets.NewSheetsService(apiKey)
 	if err != nil {
-		log.Fatalf("Failed to get sheet data: %v", err)
+		error := fmt.Errorf("failed to create new SheetsService: %v", err)
+		fmt.Println(error)
+	}
+
+	// get data from the sheet
+	headers, data, err := service.GetSheetData(*sid, readRange)
+	if err != nil {
+		error := fmt.Errorf("failed to get data from the sheet: %v", err)
+		fmt.Println(error)
 	}
 
 	// create JSON file

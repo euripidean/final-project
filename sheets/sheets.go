@@ -9,20 +9,26 @@ import (
 	"google.golang.org/api/sheets/v4"
 )
 
-// GetSheetData retrieves data from a Google Sheet
-func GetSheetData(apiKey string, spreadsheetID string, readRange string) ([]string, []map[string]interface{}, error) {
+// SheetsService provides functions to interact with Google Sheets API
+type SheetsService struct {
+	service *sheets.Service
+	apiKey  string
+}
 
-	// Connection
+// NewSheetsService creates a new SheetsService
+func NewSheetsService(apiKey string) (*SheetsService, error) {
 	ctx := context.Background()
-
-	// Connect to sheets client
 	service, err := sheets.NewService(ctx, option.WithAPIKey(apiKey))
 	if err != nil {
-		return nil, nil, fmt.Errorf("unable to retrieve sheets client: %v", err)
+		return nil, fmt.Errorf("unable to retrieve sheets client: %v", err)
 	}
+	return &SheetsService{service: service, apiKey: apiKey}, nil
+}
 
+// GetSheetData retrieves data from a Google Sheet
+func (s *SheetsService) GetSheetData(spreadsheetID string, readRange string) ([]string, []map[string]interface{}, error) {
 	// Get data from sheet
-	resp, err := service.Spreadsheets.Values.Get(spreadsheetID, readRange).Do()
+	resp, err := s.service.Spreadsheets.Values.Get(spreadsheetID, readRange).Do()
 	if err != nil {
 		return nil, nil, fmt.Errorf("unable to retrieve data from sheet: %v", err)
 	}

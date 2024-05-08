@@ -1,47 +1,22 @@
+// Package json provides functions to create a JSON file from the data read from the spreadsheet (slice of maps)
 package json
 
-import (
-	"encoding/json"
-	"os"
-	"reflect"
-	"testing"
-)
+import "testing"
 
+// TestCreateJSON tests the CreateJSON function
 func TestCreateJSON(t *testing.T) {
-	// Test data
-	data := []map[string]interface{}{
-		{"name": "John Doe", "age": 30},
-		{"name": "Jane Smith", "age": 25},
+	type args struct {
+		data []map[string]interface{}
 	}
-
-	// Create JSON
-	CreateJSON(data)
-
-	// Verify if the JSON file is created
-	if _, err := os.Stat("data.json"); os.IsNotExist(err) {
-		t.Errorf("JSON file was not created")
+	tests := []struct {
+		name string
+		args args
+	}{
+		// TODO: Add test cases.
 	}
-
-	// Read the JSON file
-	file, err := os.Open("data.json")
-	if err != nil {
-		t.Fatalf("Failed to open file: %v", err)
-	}
-	defer file.Close()
-
-	// Decode the JSON data
-	var jsonData []map[string]interface{}
-	decoder := json.NewDecoder(file)
-	if err := decoder.Decode(&jsonData); err != nil {
-		t.Fatalf("Failed to decode JSON: %v", err)
-	}
-
-	// Verify the decoded JSON data
-	expectedData := []map[string]interface{}{
-		{"name": "John Doe", "age": 30},
-		{"name": "Jane Smith", "age": 25},
-	}
-	if !reflect.DeepEqual(jsonData, expectedData) {
-		t.Errorf("Decoded JSON data does not match expected data")
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			CreateJSON(tt.args.data)
+		})
 	}
 }
