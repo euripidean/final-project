@@ -10,7 +10,7 @@ import (
 )
 
 // CreateJSON creates a JSON file from the data read from the spreadsheet
-func CreateJSON(data []map[string]interface{}) {
+func CreateJSON(data []map[string]interface{}, fileName *string) {
 	//if data is empty, throw an error and return
 	if len(data) == 0 {
 		error := fmt.Errorf("data cannot be empty")
@@ -23,7 +23,7 @@ func CreateJSON(data []map[string]interface{}) {
 		log.Fatalf("Unable to convert data to JSON: %v", err)
 	}
 
-	file, err := os.Create("data.json")
+	file, err := os.Create(*fileName + ".json")
 	if err != nil {
 		log.Fatalf("Failed to create file: %v", err)
 	}

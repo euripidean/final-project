@@ -6,7 +6,7 @@
 </head>
 <body>
     <script>
-    d3.json("data.json").then(function(data) {
+    d3.json("test.json").then(function(data) {
         
         var svgWidth =  800 ;
         var svgHeight =  400 ;
@@ -16,7 +16,7 @@
         var width = svgWidth - margin.left - margin.right;
         var height = svgHeight - margin.top - margin.bottom;
         
-        var keys = ["Month","Number Sold","Value"].slice(1);
+        var keys = ["Year","Amount"].slice(1);
 
         keys.forEach(function(key, i) {
             var svg = d3.select("body")
@@ -31,7 +31,7 @@
             });
 
             var x = d3.scaleBand()
-                      .domain(data.map(function(d) { return d["Month"]; }))
+                      .domain(data.map(function(d) { return d["Year"]; }))
                       .range([0, width])
                       .padding(0.1);
             
@@ -52,7 +52,7 @@
                .data(data)
                .enter().append("rect")
                .attr("class", "bar")
-               .attr("x", function(d) { return x(d["Month"]); })
+               .attr("x", function(d) { return x(d["Year"]); })
                .attr("width", x.bandwidth())
                .attr("y", function(d) { return y(d[key]); })
                .attr("height", function(d) { return height - y(d[key]); });

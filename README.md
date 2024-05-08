@@ -15,8 +15,8 @@ This package allows you to visualize data from a Google Sheets spreadsheet in a 
 1. Clone the repository
 2. Run `go build` in the root directory
 3. Run the executable with the following flags:
-   - `-sid` (required): The ID of the Google Sheets spreadsheet you want to visualize
-   - `-file` (optional): The name of the file where the JSON data will be saved (default: `data.json`). This will also be the name of the HTML file that will be served.
+   - `-sid` (optional): The ID of the Google Sheets spreadsheet you want to visualize. If you don't pass it as a flag, the default value will be the value of the `SPREADSHEET_ID` environment variable.
+   - `-f` (optional): The name of the file where the JSON data will be saved (default: `data.json`). This will also be the name of the HTML file that will be served.
 4. Open a web browser and navigate to `http://localhost:3030/<file>.html` to see the visualizations
 
 ## Environment Variables
@@ -35,4 +35,4 @@ This package allows you to visualize data from a Google Sheets spreadsheet in a 
 4. Run the executable with the following flags:
    - `-sid` (required): The ID of the Google Sheets spreadsheet you want to visualize
    - `-file` (optional): The name of the file where the JSON data will be saved (default: `data.json`). This will also be the name of the HTML file that will be served.
-5. Open a web browser and navigate to `http://localhost:3030/<file>.html` to see the visualizations
+5. Open a web browser and navigate to `http://localhost:5500/<file>.html` to see the visualizations

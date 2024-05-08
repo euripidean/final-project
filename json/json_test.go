@@ -10,8 +10,10 @@ import (
 
 // TestCreateJSON tests the CreateJSON function
 func TestCreateJSON(t *testing.T) {
+	var fileName = "data"
 	type args struct {
 		data []map[string]interface{}
+		fileName *string
 	}
 		tests := []struct {
 			name string
@@ -19,19 +21,21 @@ func TestCreateJSON(t *testing.T) {
 			wantErr bool
 		}{
 			{
-	            name: "JSON is created when data is supplied",
-	            args: args{
-	                data: []map[string]interface{}{
-	                    {"key1": "value1", "key2": "value2"},
-	                    {"key1": "value3", "key2": "value4"},
-	                },
-	            },
+				name: "JSON is created when data is supplied",
+				args: args{
+					data: []map[string]interface{}{
+						{"key1": "value1", "key2": "value2"},
+						{"key1": "value3", "key2": "value4"},
+					},
+					fileName: &fileName,
+				},
 				wantErr: false,
-	        },
+			},
 			{
 				name: "JSON is not created when data is not supplied",
 				args: args{
 					data: []map[string]interface{}{},
+					fileName: &fileName,
 				},
 				wantErr: true,
 			},
@@ -39,7 +43,7 @@ func TestCreateJSON(t *testing.T) {
 		 for _, tt := range tests {
         t.Run(tt.name, func(t *testing.T) {
             // Call CreateJSON
-            CreateJSON(tt.args.data)
+            CreateJSON(tt.args.data, tt.args.fileName)
 
             // Check if file was created
             _, err := os.Stat("data.json")
@@ -77,13 +81,16 @@ func TestCreateJSON(t *testing.T) {
 
 // BenchmarkCreateJSON benchmarks the CreateJSON function
 func BenchmarkCreateJSON(b *testing.B) {
+	// Create data
 	data := []map[string]interface{}{
 		{"key1": "value1", "key2": "value2"},
 		{"key1": "value3", "key2": "value4"},
 	}
+	fileName := "data"
+
 
 	for i := 0; i < b.N; i++ {
-		CreateJSON(data)
+		CreateJSON(data, &fileName)
 	}
 
 	// Clean up

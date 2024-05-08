@@ -25,8 +25,8 @@ func main() {
 	apiKey := os.Getenv("API_KEY")
 
 	// set spreadsheet ID and the output file name
-	sid := flag.String("spreadsheetID", os.Getenv("SPREADSHEET_ID"), "Google Sheet ID")
-	file := flag.String("file", "data", "JSON and HTML file to create")
+	sid := flag.String("sid", os.Getenv("SPREADSHEET_ID"), "Google Sheet ID")
+	fileName := flag.String("f", "data", "Name that will be used for the output JSON and HTML files")
 	flag.Parse()
 
 	// set read range
@@ -47,8 +47,8 @@ func main() {
 	}
 
 	// create JSON file
-	json.CreateJSON(data)
+	json.CreateJSON(data, fileName)
 
 	// visualize the data
-	visualization.Visualize(*file, headers, "./template.tmpl")
+	visualization.Visualize(*fileName, headers, "./template.tmpl")
 }
