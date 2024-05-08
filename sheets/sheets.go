@@ -31,22 +31,22 @@ func GetSheetData(apiKey string, spreadsheetID string, readRange string) ([]stri
 	var data []map[string]interface{}
 
 	if len(resp.Values) > 0 {
-    // Get the headers from the first row
-    
-    for _, header := range resp.Values[0] {
-        headers = append(headers, header.(string))
-    }
+		// Get the headers from the first row
 
-    // Get the data from the remaining rows
-    for _, row := range resp.Values[1:] {
-        rowData := make(map[string]interface{})
-        for i, cell := range row {
-            if i < len(headers) {
-                rowData[headers[i]] = cell
-            }
-        }
-        data = append(data, rowData)
-    }
-}
-return headers, data, nil
+		for _, header := range resp.Values[0] {
+			headers = append(headers, header.(string))
+		}
+
+		// Get the data from the remaining rows
+		for _, row := range resp.Values[1:] {
+			rowData := make(map[string]interface{})
+			for i, cell := range row {
+				if i < len(headers) {
+					rowData[headers[i]] = cell
+				}
+			}
+			data = append(data, rowData)
+		}
+	}
+	return headers, data, nil
 }

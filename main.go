@@ -15,31 +15,31 @@ import (
 
 // main executes the program to read data from a Google Sheet, create a JSON file, and visualize the data
 func main() {
-    // load the .env file
-   if err := godotenv.Load(); err != nil {
-        log.Fatal("Error loading .env file")
-    }
+	// load the .env file
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
-    // set API key
+	// set API key
 	apiKey := os.Getenv("API_KEY")
 
-    // set spreadsheet ID and the output file name
-    sid := flag.String("spreadsheetID", os.Getenv("SPREADSHEET_ID"), "Google Sheet ID")
-    file := flag.String("file", "data", "JSON and HTML file to create")
-    flag.Parse()
+	// set spreadsheet ID and the output file name
+	sid := flag.String("spreadsheetID", os.Getenv("SPREADSHEET_ID"), "Google Sheet ID")
+	file := flag.String("file", "data", "JSON and HTML file to create")
+	flag.Parse()
 
-    // set read range
-    readRange := os.Getenv("READ_RANGE")
+	// set read range
+	readRange := os.Getenv("READ_RANGE")
 
-    // get data from the sheet
-    headers, data, err := sheets.GetSheetData(apiKey, *sid, readRange)
-    if err != nil {
-        log.Fatalf("Failed to get sheet data: %v", err)
-    }
+	// get data from the sheet
+	headers, data, err := sheets.GetSheetData(apiKey, *sid, readRange)
+	if err != nil {
+		log.Fatalf("Failed to get sheet data: %v", err)
+	}
 
-    // create JSON file
-    json.CreateJSON(data)
+	// create JSON file
+	json.CreateJSON(data)
 
-    // visualize the data
-    visualization.Visualize(*file, headers, "./template.tmpl")
+	// visualize the data
+	visualization.Visualize(*file, headers, "./template.tmpl")
 }
