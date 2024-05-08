@@ -40,3 +40,7 @@ This package allows you to visualize data from a Google Sheets spreadsheet in a 
 
 ### Screenshot of output HTML
 ![Screenshot 2024-05-07 at 10 39 23 PM](https://github.com/euripidean/final-project/assets/33559193/ba9b8c76-aba8-4a4d-8d71-aa535efbecdd)
+
+### Screenshot of Go Report (Github is caching at C grade)
+![Screenshot 2024-05-07 at 11 02 57 PM](https://github.com/euripidean/final-project/assets/33559193/a7bbb2ff-3a01-4aab-a009-bdad675f0fc2)
+
